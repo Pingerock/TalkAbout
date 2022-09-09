@@ -1,0 +1,54 @@
+﻿<Window x:Class="TalkAbout.CommentWindow"
+        x:Name="Window"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TalkAbout"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        mc:Ignorable="d"
+        Title="CommentWindow" Height="450" Width="800" WindowStyle="None" Background="#FF27292D" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+    <Grid Name="ContentWindow">
+        <Grid Margin="10,5,10,0" MinWidth="290" Height="25" Background="#FF383B40" VerticalAlignment="Top" MouseDown="Grid_MouseDown" MouseLeftButtonDown="Grid_MouseLeftButtonDown">
+            <TextBlock Text="TalkAbout" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="18" FontStyle="Italic" FontFamily="Impact" Foreground="White"/>
+            <Button Width="30" Height="30" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Right" Click="CloseButton_Click" Cursor="Hand">
+                <materialDesign:PackIcon Kind="Close" Height="20" Width="20"/>
+            </Button>
+        </Grid>
+        <ListBox ItemsSource="{Binding PostComments}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled" BorderBrush="{x:Null}" Background="#FF383B40" VerticalAlignment="Top" Margin="10,40,10,10" Width="780" Height="240" >
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderThickness="0 0 0 1" BorderBrush="#727077" Width="{Binding ActualWidth, ElementName=ContentWindow}" Margin="0,0,0,0" >
+                        <Grid HorizontalAlignment="Stretch">
+                            <StackPanel Margin="5,10,5,0">
+                                <TextBlock FontSize="20" TextWrapping="Wrap" Foreground="White" Text="{Binding Path=Text}" Margin="5,0,0,0" HorizontalAlignment="Left"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock FontSize="20" Foreground="White" Text="{Binding Path=Number_of_Likes}" Margin="15,0,0,5"/>
+                                    <Button Width="30" Height="30" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Right" Cursor="Hand">
+                                        <materialDesign:PackIcon Kind="Like" Height="16" Width="16"/>
+                                    </Button>
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Grid Margin="10,240,10,5" VerticalAlignment="Center" Background="#FF383B40" Height="100">
+            <xctk:RichTextBox x:Name="commentTextBox" Text="{Binding CommentText}" KeyDown="commentTextBox_KeyDown" Margin="0" HorizontalAlignment="Stretch" FontSize="20">
+                <xctk:RichTextBox.TextFormatter>
+                    <xctk:PlainTextFormatter />
+                </xctk:RichTextBox.TextFormatter>
+            </xctk:RichTextBox>
+        </Grid>
+        <Grid VerticalAlignment="Bottom">
+            <StackPanel Margin="10, 0, 0, 10" HorizontalAlignment="Left">
+                <Button Content="Отмена" FontSize="22" VerticalContentAlignment="Center" Background="#727077" Foreground="White" Cursor="Hand" MinWidth="150" MinHeight="35" Click="CloseButton_Click"/>
+            </StackPanel>
+            <StackPanel Margin="0,0,10,10" HorizontalAlignment="Right">
+                <Button IsDefault="True" Content="Отправить комментарий" VerticalContentAlignment="Center" FontSize="22" Background="#727077" Foreground="White" Cursor="Hand" MinWidth="150" MinHeight="35" Command="{Binding SendComment}"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

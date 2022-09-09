@@ -1,0 +1,244 @@
+﻿<Window x:Class="TalkAbout.MainWindow"
+        x:Name="Window"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TalkAbout"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        mc:Ignorable="d"
+        Height="450" Width="800" MinHeight="450" MinWidth="800" WindowStyle="None" Background="#FF27292D" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid Margin="5,5,5,0" MinWidth="290" Height="25" Background="#FF383B40" VerticalAlignment="Top" MouseDown="Grid_MouseDown" MouseLeftButtonDown="Grid_MouseLeftButtonDown">
+            <Button Width="30" Height="30" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Left" Cursor="Hand" Command="{Binding MainWindow}" Visibility="{Binding ArrowBackVisibility}">
+                <materialDesign:PackIcon Kind="ArrowBack" Height="20" Width="20"/>
+            </Button>
+            <TextBlock Text="TalkAbout" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="18" FontStyle="Italic" FontFamily="Impact" Foreground="White"/>
+            <Button Width="30" Height="30" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Right" Click="CloseButton_Click" Cursor="Hand">
+                <materialDesign:PackIcon Kind="Close" Height="20" Width="20"/>
+            </Button>
+        </Grid>
+        <Grid>
+            <Grid Background="#FF383B40" Margin="5, 40, 5, 10" Width="200" HorizontalAlignment="Left">
+                <StackPanel Margin="5, 10">
+                    <materialDesign:TransitioningContent OpeningEffect="{materialDesign:TransitionEffect SlideInFromTop, Duration=0:0:2.4}">
+                        <StackPanel>
+                            <TextBlock Text="Добро пожаловать, " Margin="10,0,0,0" Foreground="White" FontSize="14"/>
+                            <StackPanel Orientation="Horizontal" Margin="10,0,5,0">
+                                <TextBlock Text="{Binding Username}" Margin="0,5,0,0" Foreground="White" FontSize="12" />
+                                <TextBlock Text="[Админ]" Foreground="#FFA21212" FontSize="12" Margin="5,5,0,0" Visibility="{Binding AdminVisibility}"/>
+                            </StackPanel>
+                            <Button FontSize="18" Foreground="White" HorizontalContentAlignment="Left" BorderBrush="{x:Null}" Margin="10,0,40,0" Cursor="Hand">
+                                <Button.Background>
+                                    <SolidColorBrush Opacity="0"/>
+                                </Button.Background>
+                                <StackPanel Orientation="Horizontal" Margin="5,10,5,0">
+                                    <TextBlock Text="{Binding SubsCount}" Foreground="White" FontSize="12" Margin="0,0,0,0" />
+                                    <TextBlock Text="Подписок" Foreground="White" FontSize="12" Margin="5,0,0,0" />
+                                </StackPanel>
+                            </Button>
+                            <Button FontSize="18" BorderBrush="{x:Null}" Foreground="White" HorizontalContentAlignment="Left" Margin="10,0,40,0" Cursor="Hand">
+                                <Button.Background>
+                                    <SolidColorBrush Color="#FFDDDDDD" Opacity="0"/>
+                                </Button.Background>
+                                <StackPanel Orientation="Horizontal" Margin="5,0,5,5">
+                                    <TextBlock Text="{Binding SubscriberCount}" Foreground="White" FontSize="12" Margin="0,0,0,0" />
+                                    <TextBlock Text="Подписчиков" Foreground="White" FontSize="12" Margin="5,0,0,0" />
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </materialDesign:TransitioningContent>
+                    <materialDesign:TransitioningContent OpeningEffect="{materialDesign:TransitionEffect SlideInFromLeft, Duration=0:0:1.8}">
+                        <Button Content="Поделиться мыслью" BorderBrush="{x:Null}" FontSize="18" Background="#FF4B67E6" Foreground="White" Margin="0,10,0,0" Cursor="Hand" Command="{Binding WritePost}"/>
+                    </materialDesign:TransitioningContent>
+                    <materialDesign:TransitioningContent OpeningEffect="{materialDesign:TransitionEffect SlideInFromLeft, Duration=0:0:2.0}">
+                        <Button Content="Мои записи" FontSize="18" BorderBrush="{x:Null}" Background="#727077" Foreground="White" Margin="5,25,5,0" Cursor="Hand" Command="{Binding MyPost}"/>
+                    </materialDesign:TransitioningContent>
+                    <materialDesign:TransitioningContent OpeningEffect="{materialDesign:TransitionEffect SlideInFromLeft, Duration=0:0:2.2}">
+                        <Button Content="Мои комментарии" FontSize="18" BorderBrush="{x:Null}" Background="#727077" Foreground="White" Margin="5,10,5,0" Cursor="Hand" Command="{Binding MyComment}"/>
+                    </materialDesign:TransitioningContent>
+                    <materialDesign:TransitioningContent OpeningEffect="{materialDesign:TransitionEffect SlideInFromLeft, Duration=0:0:2.4}">
+                        <Button Content="Поиск людей" FontSize="18" BorderBrush="{x:Null}" Background="#727077" Foreground="White" Margin="5,10,5,0" Cursor="Hand" Command="{Binding SearchFriend}"/>
+                    </materialDesign:TransitioningContent>
+                    <materialDesign:TransitioningContent OpeningEffect="{materialDesign:TransitionEffect SlideInFromLeft, Duration=0:0:2.6}">
+                    <StackPanel Visibility="{Binding AdminVisibility}">
+                        <Grid Margin="0,10,0,8">
+                            <TextBlock Text="Выберите месяц" Foreground="White" FontSize="14" Margin="10,0,0,0"/>
+                                <DatePicker DisplayDate="{Binding Period}" Width="30" Margin="0,0,20,0" BorderBrush="{x:Null}" Focusable="False" HorizontalAlignment="Right" Cursor="Hand"/>
+                        </Grid>
+                        <Button Background="#FF67EC59" BorderBrush="{x:Null}" Command="{Binding ExportReport}" Margin="0,-8,0,0" Cursor="Hand">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="File" VerticalAlignment="Center" Margin="4"/>
+                                <TextBlock Text="Выгрузить отчет" FontSize="16" VerticalAlignment="Center" Margin="6 0 0 0"/>
+                            </StackPanel>
+                            <Button.ToolTip>Выгрузить отчет о заказах за выбранный месяц.</Button.ToolTip>
+                        </Button>
+                    </StackPanel>
+                    </materialDesign:TransitioningContent>
+                </StackPanel>
+                <materialDesign:TransitioningContent OpeningEffect="{materialDesign:TransitionEffect SlideInFromBottom, Duration=0:0:1.8}">
+                    <Button Content="Сменить аккаунт" FontSize="18" BorderBrush="{x:Null}" Foreground="White" Margin="5,10,5,10" VerticalAlignment="Bottom" Background="#FFA21212" Command="{Binding LogOut}" Cursor="Hand"/>
+                </materialDesign:TransitioningContent>
+            </Grid>
+            <Grid Background="#FF383B40" Margin="220,40,5,10" MinWidth="570" HorizontalAlignment="Stretch" Name="ContentWindow">
+                <TextBlock Text="Здесь как-то пусто. Наверное, потому что вы ни на кого не подписаны. ¯\_(ツ)_/¯" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="14" Foreground="Gray" Visibility="{Binding EmptyVisibility}"/>
+                <Grid Visibility="{Binding WritePostVisibility}" Margin="10">
+                    <Grid Margin="0,0,0,10" MinHeight="25" Background="#FF383B40" VerticalAlignment="Top">
+                        <TextBlock FontSize="20" Text="Заголовок:" Margin="10,0,5,0" Width="104" Foreground="White" HorizontalAlignment="Left"/>
+                        <TextBox x:Name="titleBox" Text="{Binding Title}" HorizontalAlignment="Stretch" FontSize="24" Margin="115,0,5,0"/>
+                    </Grid>
+                    <Grid Margin="0,40,0,45" VerticalAlignment="Stretch" Background="#FF383B40">
+                        <xctk:RichTextBox x:Name="postTextBox" Text="{Binding PostText}" KeyDown="postTextBox_KeyDown" Margin="0,0,5,0" HorizontalAlignment="Stretch" FontSize="20">
+                            <xctk:RichTextBox.TextFormatter>
+                                <xctk:PlainTextFormatter />
+                            </xctk:RichTextBox.TextFormatter>
+                        </xctk:RichTextBox>
+                    </Grid>
+                    <Grid VerticalAlignment="Bottom">
+                        <StackPanel Margin="0, 0, 0, 0" HorizontalAlignment="Left">
+                            <Button Content="Отмена" FontSize="22" VerticalContentAlignment="Center" Background="#727077" Foreground="White" Cursor="Hand" MinWidth="150" MinHeight="35" Command="{Binding CancelPost}"/>
+                        </StackPanel>
+                        <StackPanel Margin="0,0,5,0" HorizontalAlignment="Right">
+                            <Button IsDefault="True" Content="Отправить" VerticalContentAlignment="Center" FontSize="22" Background="#727077" Foreground="White" Cursor="Hand" MinWidth="150" MinHeight="35" Command="{Binding SendPost}"/>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+                <ListBox ItemsSource="{Binding AvailablePosts}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled" BorderBrush="{x:Null}" Background="#FF383B40" Visibility="{Binding MainVisibility}" Name="ListBox1" Margin="0,0,5,0">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderThickness="0 0 0 1" BorderBrush="#727077" Width="{Binding ActualWidth, ElementName=ContentWindow}" Margin="-5,0,0,0" >
+                                <Grid HorizontalAlignment="Stretch">
+                                <StackPanel Margin="5,10,5,0">
+                                    <TextBlock FontSize="24" Foreground="White" Text="{Binding Path=Title}" Margin="5,0,0,5" HorizontalAlignment="Left"/>
+                                    <TextBlock FontSize="20" TextWrapping="Wrap" Foreground="White" Text="{Binding Path=Text}" Margin="5,0,0,0" HorizontalAlignment="Left"/>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock FontSize="20" Foreground="White" Text="{Binding Path=Number_of_Likes, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Margin="15,0,0,5" />
+                                            <Button Width="30" Height="30" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Right" Cursor="Hand" Click="LikeButton_Click">
+                                                <materialDesign:PackIcon Kind="Like" Height="16" Width="16"/>
+                                            </Button>
+                                            <TextBlock FontSize="20" Foreground="White" Text="{Binding Path=Number_of_Comments}" Margin="35,0,0,5"/>
+                                            <Button Width="30" Height="30" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Right" Cursor="Hand" Click="CommentButton_Click">
+                                                <materialDesign:PackIcon Kind="Comment" Height="16" Width="16"/>
+                                            </Button>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <ListBox ItemsSource="{Binding MyPosts}" SelectedItem="{Binding SelectedPost}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled" BorderBrush="{x:Null}" Background="#FF383B40" Name="ListBox2" Visibility="{Binding MyPostVisibility}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderThickness="0 0 0 1" BorderBrush="#727077" Width="{Binding ActualWidth, ElementName=ContentWindow}" Margin="-5,0,0,0" >
+                                <Grid HorizontalAlignment="Stretch">
+                                    <StackPanel Margin="5,10,5,0">
+                                        <TextBlock FontSize="24" Foreground="White" Text="{Binding Path=Title}" Margin="5,0,0,5" HorizontalAlignment="Left"/>
+                                        <TextBlock FontSize="20" TextWrapping="Wrap" Foreground="White" Text="{Binding Path=Text}" Margin="5,0,0,0" HorizontalAlignment="Left"/>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock FontSize="20" Foreground="White" Text="{Binding Path=Number_of_Likes, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Margin="15,0,0,5" />
+                                            <Button Width="30" Height="30" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Right" Cursor="Hand" Click="LikeButton_Click">
+                                                <materialDesign:PackIcon Kind="Like" Height="16" Width="16"/>
+                                            </Button>
+                                            <TextBlock FontSize="20" Foreground="White" Text="{Binding Path=Number_of_Comments}" Margin="35,0,0,5"/>
+                                            <Button Width="30" Height="30" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Right" Cursor="Hand" Click="CommentButton_Click">
+                                                <materialDesign:PackIcon Kind="Comment" Height="16" Width="16"/>
+                                            </Button>
+                                        </StackPanel>
+                                    </StackPanel>
+                                    <Button Width="30" Height="30" Background="Red" BorderBrush="{x:Null}" Foreground="White" VerticalAlignment="Bottom" HorizontalAlignment="Right" Click="DeletePostButton_Click" Cursor="Hand" Margin="10, 0, 20, 5">
+                                        <materialDesign:PackIcon Kind="TrashCan" Height="20" Width="20"/>
+                                    </Button>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <ListBox ItemsSource="{Binding MyComments}" SelectedItem="{Binding SelectedPost}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled" BorderBrush="{x:Null}" Background="#FF383B40" Name="ListBox3" Visibility="{Binding MyCommentVisibility}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderThickness="0 0 0 1" BorderBrush="#727077" Width="{Binding ActualWidth, ElementName=ContentWindow}" Margin="-5,0,0,0" >
+                                <Grid HorizontalAlignment="Stretch">
+                                    
+                                    <StackPanel Margin="5,10,5,0">
+                                        <TextBlock FontSize="20" TextWrapping="Wrap" Foreground="White" Text="{Binding Path=Text}" Margin="5,0,0,0" HorizontalAlignment="Left"/>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock FontSize="20" Foreground="White" Text="{Binding Path=Number_of_Likes}" Margin="15,0,0,5"/>
+                                            <Button Width="30" Height="30" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Right" Cursor="Hand">
+                                                <materialDesign:PackIcon Kind="Like" Height="16" Width="16"/>
+                                            </Button>
+                                        </StackPanel>
+                                    </StackPanel>
+                                    <Button Width="30" Height="30" Background="Red" BorderBrush="{x:Null}" Foreground="White" VerticalAlignment="Bottom" HorizontalAlignment="Right" Click="DeleteCommentButton_Click" Cursor="Hand" Margin="10, 0, 20, 5">
+                                        <materialDesign:PackIcon Kind="TrashCan" Height="20" Width="20"/>
+                                    </Button>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <!--<Grid Visibility="{Binding CommentsVisibility}">
+                    <ListBox ItemsSource="{Binding PostComments}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled" BorderBrush="{x:Null}" Background="#FF383B40" VerticalAlignment="Top" Margin="0,0,0,10" >
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Border BorderThickness="0 0 0 1" BorderBrush="#727077" Width="{Binding ActualWidth, ElementName=ContentWindow}" Margin="-5,0,0,0" >
+                                        <Grid HorizontalAlignment="Stretch">
+                                            <StackPanel Margin="5,10,5,0">
+                                                <TextBlock FontSize="20" TextWrapping="Wrap" Foreground="White" Text="{Binding Path=Text}" Margin="5,0,0,0" HorizontalAlignment="Left"/>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock FontSize="20" Foreground="White" Text="{Binding Path=Number_of_Likes}" Margin="15,0,0,5"/>
+                                                    <Button Width="30" Height="30" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Right" Cursor="Hand">
+                                                        <materialDesign:PackIcon Kind="Like" Height="16" Width="16"/>
+                                                    </Button>
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                        <Grid Margin="0,200,0,0" VerticalAlignment="Center" Background="#FF383B40" Height="100">
+                            <xctk:RichTextBox x:Name="commentTextBox" Text="{Binding CommentText}" KeyDown="commentTextBox_KeyDown" Margin="0,0,5,0" HorizontalAlignment="Stretch" FontSize="20">
+                                <xctk:RichTextBox.TextFormatter>
+                                    <xctk:PlainTextFormatter />
+                                </xctk:RichTextBox.TextFormatter>
+                            </xctk:RichTextBox>
+                        </Grid>
+                    <Grid VerticalAlignment="Bottom">
+                        <StackPanel Margin="0, 0, 0, 0" HorizontalAlignment="Left">
+                            <Button Content="Отмена" FontSize="22" VerticalContentAlignment="Center" Background="#727077" Foreground="White" Cursor="Hand" MinWidth="150" MinHeight="35" Command="{Binding CancelComment}"/>
+                        </StackPanel>
+                        <StackPanel Margin="0,0,5,0" HorizontalAlignment="Right">
+                            <Button IsDefault="True" Content="Отправить комментарий" VerticalContentAlignment="Center" FontSize="22" Background="#727077" Foreground="White" Cursor="Hand" MinWidth="150" MinHeight="35" Command="{Binding SendComment}"/>
+                        </StackPanel>
+                    </Grid>
+                </Grid>-->
+                <Grid Visibility="{Binding SearchVisibility}">
+                    <Grid>
+                        <TextBlock FontSize="24" Text="Поиск людей" Margin="0,0,0,0" Foreground="White" HorizontalAlignment="Center"/>
+                    </Grid>
+                    <Grid Margin="0,0,0,10" MinHeight="25" Background="#FF383B40" VerticalAlignment="Center">
+                        <TextBlock FontSize="20" Text="Введите имя:" Margin="20,0,5,0" Width="120" Foreground="White" HorizontalAlignment="Left"/>
+                        <TextBox x:Name="searchBox" Text="{Binding SearchBoxText}" HorizontalAlignment="Stretch" FontSize="20" Margin="160,3,35,105" Height="25" VerticalContentAlignment="Center"/>
+                        <Button Content="Поиск" VerticalAlignment="Center" FontSize="22" Background="#727077" Foreground="White" Cursor="Hand" BorderBrush="{x:Null}" Width="150" Command="{Binding Search}"></Button>
+                    </Grid>
+                    <Grid Visibility="{Binding SearchFailure}" VerticalAlignment="Center" Margin="0,90,0,0">
+                        <TextBlock Text="Пользователь не найден." HorizontalAlignment="Center" FontSize="24" Foreground="Red" />
+                    </Grid>
+                    <Grid Margin="0,20,0,0" VerticalAlignment="Bottom" Visibility="{Binding SearchSuccess}">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="30,45,0,0" >
+                                <TextBlock Text="Найден пользователь: " FontSize="20" Foreground="White"/>
+                                <TextBlock Text="{Binding SearchUsername}" FontSize="20" Foreground="White" Width="309"/>
+                            </StackPanel>
+                            <StackPanel>
+                                <Button FontSize="18" Content="Добавить" Margin="0,20,0,10" Background="#FF437228" BorderBrush="{x:Null}" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Center" MinWidth="60" Foreground="White" Command="{Binding Subscribe}" Width="150" Cursor="Hand"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>
